@@ -18,7 +18,7 @@ public class Main {
         box.addToBox(null);
 
         box.boxInformation();
-        box.removeFromBoxByIndex(0); 
+        box.removeFromBoxByIndex(0);
         box.boxPrice();
         box.reducePrice(500);
         box.boxInformation();
