@@ -1,106 +1,130 @@
 package com.company;
 
+import java.util.Arrays;
+
 public class SweetBox implements Box {
 
+    private Sweet [] presentBox = new Sweet[0];
 
 
-    @Override
-    public Sweet [] addToBox(Sweet[] collection, Sweet sweet) {
-    Sweet [] newCollection = new Sweet[collection.length + 1];
-    for (int i = 0; i < collection.length; i++){
-        newCollection[i] = collection[i];
-    }
-    newCollection[newCollection.length - 1] = sweet;
-    return newCollection;
 
-    }
+
 
     @Override
-    public Sweet [] removeFromBoxByIndex(Sweet [] sweet, int index) {
-    for (int i = 0; i < (sweet.length - index - 1); i++){
-        sweet[index+i] = sweet [index+i+1];
-    }
-    Sweet [] newCollection = new Sweet[sweet.length-1];
-    for (int i =0; i <newCollection.length; i++){
-        newCollection[i] = sweet[i];
-    }
-    return newCollection;
+    public void addToBox(Sweet sweet) {
+    this.presentBox = Arrays.copyOf(this.presentBox, (this.presentBox.length + 1));
+    this.presentBox[this.presentBox.length-1] = sweet;
+
+
     }
 
     @Override
-    public void boxWeight(Sweet[] sweet) {
+    public void removeFromBoxByIndex(int index) {
+    if (this.presentBox.length > index && index >= 0){
+        for (int i = 0; i < (this.presentBox.length - index - 1); i++){
+            this.presentBox[index+i] = this.presentBox [index+i+1];
+        }
+        this.presentBox = Arrays.copyOf(this.presentBox,(this.presentBox.length -1) );}
+    else if (index < 0 || index >= this.presentBox.length) System.out.println("Некорректный запрос");
+
+
+    }
+
+
+
+    @Override
+    public void boxWeight() {
+        if (this.presentBox.length > 0){
         double result = 0;
-        for (Sweet sweets: sweet){
+        for (Sweet sweets: this.presentBox){
             result += sweets.getWeight();
         }
-        System.out.println("Общий вес коробки " + result);
+        System.out.println("Общий вес коробки " + result);}
+        else System.out.println("Коробочка пустая");
     }
 
     @Override
-    public void boxPrice(Sweet[] sweet) {
+    public void boxPrice() {
+        if (this.presentBox.length > 0){
         double result = 0;
-        for (Sweet sweets: sweet){
+        for (Sweet sweets: this.presentBox){
             result += sweets.getPrice();
         }
-        System.out.println("Общая стоимость коробки " + result);
+        System.out.println("Общая стоимость коробки " + result);}
+        else System.out.println("Коробочка пустая");
     }
 
     @Override
-    public void boxInformation(Sweet [] sweet) {
+    public void boxInformation() {
+        if (this.presentBox.length > 0){
         System.out.println("Состав коробки: ");
-        for (int i = 0; i < sweet.length; i++){
-            System.out.println((i+1) + ") " + sweet[i]);
-        }
+        for (int i = 0; i < this.presentBox.length; i++){
+            System.out.println((i+1) + ") " + this.presentBox[i]);
+        }}
+        else System.out.println("Коробочка пустая");
 
     }
 
     @Override
-    public Sweet[] reduceWeight(Sweet[] sweet, double weight) {
+    public void reduceWeight(double weight) {
+    try{
+    if (this.presentBox.length == 0) System.out.println("Коробочка пустая");
+    if (this.presentBox.length == 1) System.out.println("В коробочке лежит всего одна сладость. Добавьте еще как минимум одну, чтобы можно было скорректировать подарок по весу");
         double result = 0;
-        double minWeight = sweet[0].getWeight();
+
         int index = 0;
-        for (Sweet sweets: sweet){
+        for (Sweet sweets: this.presentBox){
             result += sweets.getWeight();
         }
 
-        Sweet [] newCollection = sweet;
-            if (result > weight){
-            for (int i = 0; i < sweet.length; i++){
-                if (minWeight > sweet[i].getWeight()){
+        while (result > weight){
+            double minWeight = this.presentBox[0].getWeight();
+
+            for (int i = 0; i < this.presentBox.length; i++){
+                if (minWeight > this.presentBox[i].getWeight()){
                     index = i;
-                    minWeight = sweet[i].getWeight();
+                    minWeight = this.presentBox[i].getWeight();
                 }
             }
-            newCollection = removeFromBoxByIndex(sweet,index);}
+            result -= this.presentBox[index].getWeight();
+            removeFromBoxByIndex(index);
+
+        }}
+    catch (ArrayIndexOutOfBoundsException e){
+        System.out.println("Некорректный допустимый вес");
+    }
 
 
 
 
-        return newCollection;
+
     }
 
     @Override
-    public Sweet[] reducePrice(Sweet[] sweet, double price) {
+    public void reducePrice(double price){
+    try{
+    if (this.presentBox.length == 0) System.out.println("Коробочка пустая");
+    if (this.presentBox.length == 1) System.out.println("В коробочке лежит всего одна сладость. Добавьте еще как минимум одну, чтобы можно было скорректировать подарок по цене");
         double result = 0;
-        double minPrice = sweet[0].getPrice();
         int index = 0;
-        for (Sweet sweets: sweet){
+        for (Sweet sweets: this.presentBox){
             result += sweets.getPrice();
         }
 
-        Sweet [] newCollection = sweet;
-        if (result > price){
-            for (int i = 0; i < sweet.length; i++){
-                if (minPrice > sweet[i].getPrice()){
+        while (result > price){
+            double minPrice = this.presentBox[0].getPrice();
+
+            for (int i = 0; i < this.presentBox.length; i++){
+                if (minPrice > this.presentBox[i].getPrice()){
                     index = i;
-                    minPrice = sweet[i].getPrice();
+                    minPrice = this.presentBox[i].getPrice();
                 }
             }
-            newCollection = removeFromBoxByIndex(sweet,index);}
-
-
-
-
-        return newCollection;
+            result -= this.presentBox[index].getPrice();
+            removeFromBoxByIndex(index);
+        }}
+    catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("Некорректная допустимая цена");
+        }
     }
 }

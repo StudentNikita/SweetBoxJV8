@@ -1,26 +1,40 @@
 package com.company;
 
 public class Main {
-    public static Sweet [] sweetbox = new Sweet [0];
+
 
     public static void main(String[] args) {
         Box box = new SweetBox();
-        sweetbox = box.addToBox(sweetbox,new Chocolate("Аленка",30.56, 70, "Черный"));
-        sweetbox = box.addToBox(sweetbox,new Candy("Фрутис",147.1, 43, "Клубника"));
-        sweetbox = box.addToBox(sweetbox,new Candy("Бонпари",151.5, 45, "Апельсин"));
-        sweetbox = box.addToBox(sweetbox,new Waffles("Киткат",149.14, 69, "Шоколад"));
-        sweetbox = box.addToBox(sweetbox,new Waffles("К чаю",170.34, 65.5, "Ваниль"));
-        sweetbox = box.addToBox(sweetbox,new Toffee("Элитная Коровка",100, 120, "Квадрат"));
 
-        box.boxWeight(sweetbox);
-        box.boxInformation(sweetbox);
-        sweetbox = box.reduceWeight(sweetbox,500);
-        box.boxWeight(sweetbox);
+        box.boxInformation();
+        box.removeFromBoxByIndex(1);
 
-        box.boxPrice(sweetbox);
-        sweetbox = box.reducePrice(sweetbox,300);
-        box.boxPrice(sweetbox);
-        box.boxInformation(sweetbox);
+        box.addToBox(new Chocolate("Аленка",13, 70, "Черный"));
+        box.addToBox(new Candy("Фрутис",14, 43, "Клубника"));
+        box.addToBox(new Waffles("Киткат",16, 69, "Шоколад"));
+        box.addToBox(new Waffles("К чаю",17, 65.5, "Ваниль"));
+        box.addToBox(new Toffee("Элитная Коровка",18, 120, "Квадрат"));
+
+
+
+        box.boxPrice();
+        box.boxWeight();
+        box.removeFromBoxByIndex(5);
+        box.boxInformation();
+        box.reducePrice(200);
+        box.boxInformation();
+        box.addToBox(new Candy("Бонпари",15, 45, "Апельсин"));
+        box.boxWeight();
+        box.reduceWeight(25);
+        box.boxInformation();
+
+
+
+
+
+
+
+
 
 
         // write your code here
