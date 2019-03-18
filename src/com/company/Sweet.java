@@ -1,6 +1,6 @@
 package com.company;
 
-public abstract class Sweet {
+public class Sweet {
     String name;
     double weight, price;
 
